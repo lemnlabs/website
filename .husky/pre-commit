@@ -1,0 +1,4 @@
+set -e
+
+mise exec -- pnpm exec lint-staged --concurrent false
+mise exec -- pnpm check

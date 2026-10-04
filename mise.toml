@@ -1,0 +1,39 @@
+[tools]
+node = "24.21.0"
+pnpm = "12.8.1"
+
+[tasks.install]
+description = "Install dependencies from the lockfile"
+run = "pnpm install --frozen-lockfile"
+
+[tasks.dev]
+description = "Start the Astro development server"
+run = "pnpm dev"
+
+[tasks.check]
+description = "Run Astro and TypeScript checks"
+run = "pnpm check"
+
+[tasks.build]
+description = "Check and build the static site"
+run = "pnpm build"
+
+[tasks.preview]
+description = "Preview the static build"
+run = "pnpm preview"
+
+[tasks.format]
+description = "Format supported project files"
+run = "pnpm format"
+
+[tasks."format:check"]
+description = "Check project formatting"
+run = "pnpm format:check"
+
+[tasks.lint]
+description = "Lint project code"
+run = "pnpm lint"
+
+[tasks."lint:fix"]
+description = "Fix automatically repairable lint errors"
+run = "pnpm lint:fix"
