@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogPostList from '../../components/BlogPostList';
+import PageTitle from '../../components/PageTitle';
+import { formatPostDate, getPostUrl, getPosts } from '../../data/blog';
+import type { BlogPostSummary } from '../../data/blog-tags';
+
+const base = import.meta.env.BASE_URL;
+const posts: BlogPostSummary[] = (await getPosts()).map((post) => ({
+  id: post.id,
+  href: getPostUrl(post),
+  title: post.data.title,
+  description: post.data.description,
+  publishedAt: post.data.publishedAt,
+  formattedDate: formatPostDate(post.data.publishedAt),
+  tags: post.data.tags,
+}));
+---
+
+<Layout title="블로그 | lemnlabs" description="lemnlabs의 기술 기록입니다.">
+  <PageTitle title="블로그" appearance="page" />
+  <BlogPostList posts={posts} base={base} client:load />
+</Layout>

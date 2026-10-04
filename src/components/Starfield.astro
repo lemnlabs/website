@@ -1,0 +1,68 @@
+<section class="starfield" aria-label="lemnlabs 별 애니메이션">
+  <h1 class="sr-only">lemnlabs</h1>
+  <p id="starfield-instructions" class="sr-only">
+    화면을 누른 채 움직이면 별이 모이고, 놓으면 퍼집니다. 애니메이션에 키보드
+    포커스를 두고 스페이스바를 누르면 별이 퍼집니다.
+  </p>
+  <div class="starfield-fallback" aria-hidden="true">
+    lemnlabs
+  </div>
+  <canvas
+    id="space-canvas"
+    tabindex="0"
+    role="img"
+    aria-label="별들로 이루어진 lemnlabs 로고"
+    aria-describedby="starfield-instructions"
+  >
+    lemnlabs
+  </canvas>
+</section>
+
+<script>
+  import '../scripts/starfield';
+</script>
+
+<style>
+  .starfield {
+    position: relative;
+    flex: 1;
+    min-height: 20rem;
+    overflow: hidden;
+    background: #000;
+  }
+  canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    cursor: grab;
+    touch-action: none;
+  }
+  canvas:active {
+    cursor: grabbing;
+  }
+  canvas:focus-visible {
+    outline-offset: -5px;
+  }
+  .starfield-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font:
+      200 clamp(2.375rem, 14.5vw, 16.25rem) 'JetBrains Mono',
+      monospace;
+    color: #fff;
+  }
+  canvas {
+    visibility: hidden;
+  }
+  .starfield[data-ready] canvas {
+    visibility: visible;
+  }
+  .starfield[data-ready] .starfield-fallback {
+    display: none;
+  }
+</style>

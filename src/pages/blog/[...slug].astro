@@ -1,0 +1,52 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render, type CollectionEntry } from 'astro:content';
+import DetailBackLink from '../../components/DetailBackLink';
+import BlogTags from '../../components/BlogTags';
+import DetailFrame from '../../components/DetailFrame';
+import BlogArticleHeader from '../../components/BlogArticleHeader';
+import MarkdownBody from '../../components/MarkdownBody';
+import Layout from '../../layouts/Layout.astro';
+import { formatPostDate, getPosts } from '../../data/blog';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout
+  title={`${post.data.title} | lemnlabs`}
+  description={post.data.description}
+>
+  <DetailFrame>
+    <Fragment slot="back-link">
+      <DetailBackLink href={`${base}blog/`} label="블로그 목록" client:load />
+    </Fragment>
+    <BlogArticleHeader
+      slot="header"
+      title={post.data.title}
+      description={post.data.description}
+      publishedAt={post.data.publishedAt}
+      formattedDate={formatPostDate(post.data.publishedAt)}
+    >
+      <Fragment slot="tags">
+        <BlogTags tags={post.data.tags} base={base} client:load />
+      </Fragment>
+    </BlogArticleHeader>
+    <MarkdownBody>
+      <Content />
+    </MarkdownBody>
+  </DetailFrame>
+</Layout>

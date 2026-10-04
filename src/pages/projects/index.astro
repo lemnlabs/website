@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectList from '../../components/ProjectList';
+import PageTitle from '../../components/PageTitle';
+import {
+  getProjects,
+  getProjectUrl,
+  type ProjectSummary,
+} from '../../data/projects';
+
+const projects: ProjectSummary[] = (await getProjects()).map((project) => ({
+  id: project.id,
+  title: project.data.title,
+  description: project.data.description,
+  href: getProjectUrl(project),
+}));
+---
+
+<Layout
+  title="프로젝트 | lemnlabs"
+  description="lemnlabs의 프로젝트를 소개합니다."
+>
+  <PageTitle title="프로젝트" appearance="page" />
+  <ProjectList projects={projects} client:load />
+</Layout>

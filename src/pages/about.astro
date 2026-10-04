@@ -1,0 +1,28 @@
+---
+import { getEntry, render } from 'astro:content';
+import EmptyState from '../components/EmptyState';
+import MarkdownBody from '../components/MarkdownBody';
+import PageTitle from '../components/PageTitle';
+import Layout from '../layouts/Layout.astro';
+
+const page = await getEntry('pages', 'about');
+if (!page) {
+  throw new Error('소개 콘텐츠 src/content/pages/about.md가 필요합니다.');
+}
+const hasBody = Boolean(page.body?.trim());
+const { Content } = await render(page);
+---
+
+<Layout
+  title={`${page.data.title} | lemnlabs`}
+  description={page.data.description}
+>
+  <PageTitle title={page.data.title} appearance="page" />
+  {hasBody ? (
+    <MarkdownBody>
+      <Content />
+    </MarkdownBody>
+  ) : (
+    <EmptyState message="자세한 소개를 준비하고 있습니다." />
+  )}
+</Layout>

@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import NavigationLink from '../components/NavigationLink';
+import FloatingNavigation from '../components/FloatingNavigation';
+
+interface Props {
+  title: string;
+  description?: string;
+  immersive?: boolean;
+}
+
+const {
+  title,
+  description = 'lemnlabs 공식 웹사이트',
+  immersive = false,
+} = Astro.props;
+const base = import.meta.env.BASE_URL;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="ko" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <script is:inline>
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+      const applySystemTheme = () => {
+        document.documentElement.dataset.theme = systemTheme.matches
+          ? 'dark'
+          : 'light';
+      };
+
+      applySystemTheme();
+      systemTheme.addEventListener('change', applySystemTheme);
+      window.addEventListener('pageshow', applySystemTheme);
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="canonical" href={canonicalURL} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      id="font-stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;400&display=swap"
+      rel="stylesheet"
+    />
+    <slot name="head" />
+  </head>
+  <body class:list={{ 'immersive-page': immersive }}>
+    <NavigationLink
+      href="#main-content"
+      label="본문으로 이동"
+      appearance="skip"
+      client:load
+    />
+    <FloatingNavigation pathname={Astro.url.pathname} base={base} client:load />
+    <main
+      id="main-content"
+      class:list={[immersive ? 'immersive-main' : 'container']}
+      tabindex="-1"
+    >
+      <slot />
+    </main>
+    {!immersive && (
+      <footer class="site-footer container">
+        <span class="footer-brand">lemnlabs</span>
+        <NavigationLink
+          href="https://github.com/lemnlabs"
+          label="GitHub"
+          appearance="footer"
+          client:load
+        />
+      </footer>
+    )}
+  </body>
+</html>

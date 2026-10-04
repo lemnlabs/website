@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render, type CollectionEntry } from 'astro:content';
+import MarkdownBody from '../../components/MarkdownBody';
+import DetailBackLink from '../../components/DetailBackLink';
+import DetailFrame from '../../components/DetailFrame';
+import PageTitle from '../../components/PageTitle';
+import EmptyState from '../../components/EmptyState';
+import Layout from '../../layouts/Layout.astro';
+import { getProjects } from '../../data/projects';
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const hasBody = Boolean(project.body?.trim());
+const { Content } = await render(project);
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout
+  title={`${project.data.title} | lemnlabs`}
+  description={
+    project.data.description ??
+    `${project.data.title} 프로젝트 소개 페이지입니다.`
+  }
+>
+  <DetailFrame>
+    <Fragment slot="back-link">
+      <DetailBackLink
+        href={`${base}projects/`}
+        label="프로젝트 목록"
+        client:load
+      />
+    </Fragment>
+    <PageTitle slot="header" title={project.data.title} appearance="detail" />
+    {hasBody ? (
+      <MarkdownBody>
+        <Content />
+      </MarkdownBody>
+    ) : (
+      <EmptyState message="프로젝트 소개를 준비하고 있습니다." />
+    )}
+  </DetailFrame>
+</Layout>
