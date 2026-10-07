@@ -21,11 +21,11 @@ export default function BlogArticleHeader({
   return (
     <header className="blog-article-header">
       <PageTitle title={title} appearance="detail" />
-      <Typography.Paragraph size="sm" color="muted" className="blog-post-meta">
-        <time dateTime={publishedAt}>{formattedDate}</time>
-      </Typography.Paragraph>
       <Typography.Paragraph color="muted" className="description">
         {description}
+      </Typography.Paragraph>
+      <Typography.Paragraph size="sm" color="muted" className="blog-post-meta">
+        <time dateTime={publishedAt}>{formattedDate}</time>
       </Typography.Paragraph>
       {tags}
     </header>
