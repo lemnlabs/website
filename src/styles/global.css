@@ -582,19 +582,35 @@ html[data-theme='dark'] .astro-code span {
 .code-block-wrapper {
   position: relative;
   margin-block: 1.25rem;
+  background-color: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: calc(var(--radius) * 1.5);
+  overflow: hidden;
 }
 .code-block-wrapper pre,
-.markdown-prose pre.astro-code {
+.markdown-prose .code-block-wrapper pre.astro-code {
   margin-block: 0 !important;
-  background-color: var(--code-bg) !important;
-  border: 1px solid var(--code-border);
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
   color: var(--code-color);
 }
-.code-copy-button {
+.markdown-prose pre.astro-code {
+  margin-block: 1.25rem;
+  background-color: var(--code-bg) !important;
+  border: 1px solid var(--code-border);
+  border-radius: calc(var(--radius) * 1.5);
+  color: var(--code-color);
+}
+.code-block-header {
   position: absolute;
   top: 0.65rem;
   right: 0.65rem;
   z-index: 10;
+  pointer-events: none;
+}
+.code-copy-button {
+  pointer-events: auto;
   opacity: 0;
   transition:
     opacity 0.15s ease,
@@ -609,9 +625,25 @@ html[data-theme='dark'] .astro-code span {
 .code-copy-button[data-copied='true'] {
   opacity: 1;
 }
-@media (hover: none) {
+@media (hover: none), (max-width: 768px) {
+  .code-block-header {
+    position: relative;
+    top: auto;
+    right: auto;
+    z-index: auto;
+    pointer-events: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.5rem 0.65rem 0.25rem;
+  }
   .code-copy-button {
-    opacity: 0.85;
+    opacity: 1;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .code-block-wrapper pre {
+    padding-top: 0.5rem !important;
   }
 }
 .code-copy-button__icon {
@@ -649,9 +681,25 @@ html[data-theme='dark'] .astro-code span {
   opacity: 1;
 }
 
-@media (hover: none) {
+@media (hover: none), (max-width: 768px) {
   .mermaid-diagram__actions {
-    opacity: 0.85;
+    position: relative;
+    top: auto;
+    right: auto;
+    z-index: auto;
+    opacity: 1;
+    justify-content: flex-end;
+    padding: 0.5rem 0.65rem 0.25rem;
+  }
+  .mermaid-diagram__btn {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .mermaid-diagram__viewport {
+    padding-top: 0.75rem;
+  }
+  .mermaid-diagram__code-view {
+    padding-top: 0.5rem;
   }
 }
 

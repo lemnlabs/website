@@ -33,7 +33,9 @@ export function initCodeCopyButtons(root: ParentNode = document): void {
     const wrapper = document.createElement('div');
     wrapper.className = 'code-block-wrapper';
     pre.parentNode?.insertBefore(wrapper, pre);
-    wrapper.appendChild(pre);
+
+    const header = document.createElement('div');
+    header.className = 'code-block-header';
 
     const button = document.createElement('button');
     button.type = 'button';
@@ -79,7 +81,9 @@ export function initCodeCopyButtons(root: ParentNode = document): void {
       }
     });
 
-    wrapper.appendChild(button);
+    header.appendChild(button);
+    wrapper.appendChild(header);
+    wrapper.appendChild(pre);
   }
 }
 

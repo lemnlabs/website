@@ -171,7 +171,7 @@ function setupDiagramUi(
   copyBtn.appendChild(copyText);
   actions.appendChild(copyBtn);
 
-  diagram.appendChild(actions);
+  diagram.insertBefore(actions, viewport);
 
   // Code view container (toggled via button)
   const codeView = document.createElement('div');
