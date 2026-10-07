@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import { unified } from '@astrojs/markdown-remark';
+import remarkMermaid from './src/plugins/remark-mermaid.mjs';
 import remarkCallouts from './src/plugins/remark-callouts.mjs';
 import remarkObsidianHighlight from './src/plugins/remark-obsidian-highlight.mjs';
 import remarkObsidianEmbed from './src/plugins/remark-obsidian-embed.mjs';
@@ -15,8 +16,15 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [react()],
   markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    },
     processor: unified({
       remarkPlugins: [
+        remarkMermaid,
         remarkCallouts,
         remarkObsidianHighlight,
         remarkObsidianEmbed,

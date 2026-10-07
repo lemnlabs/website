@@ -5,7 +5,7 @@ const COPY_ICON = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" s
 const CHECK_ICON = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 
 const DEFAULT_BUTTON_CLASS = buttonVariants({
-  variant: 'secondary',
+  variant: 'tertiary',
   size: 'sm',
   className: 'code-copy-button',
 });
@@ -22,7 +22,11 @@ export function initCodeCopyButtons(root: ParentNode = document): void {
   );
 
   for (const pre of codeBlocks) {
-    if (pre.parentElement?.classList.contains('code-block-wrapper')) {
+    if (
+      pre.parentElement?.classList.contains('code-block-wrapper') ||
+      pre.classList.contains('mermaid') ||
+      pre.closest('.mermaid-diagram')
+    ) {
       continue;
     }
 

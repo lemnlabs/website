@@ -22,3 +22,18 @@ publishedAt: '2026-10-04'
 > - `PATCH /users/1`에 `{ "name": "Alex" }`를 보내면 이름만 변경하고 나머지 정보는 유지한다.
 >
 > `PUT`은 일반적으로 ==멱등성==을 갖는다. 실제 처리 방식은 API 규칙을 확인해야 한다.
+
+## 요청 및 응답 흐름
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as 클라이언트
+    participant Server as 웹 서버
+    participant DB as 데이터베이스
+
+    Client->>Server: GET /users/1
+    Server->>DB: 사용자 정보 조회
+    DB-->>Server: 조회 결과 반환
+    Server-->>Client: 200 OK (User Data)
+```
