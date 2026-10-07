@@ -1,8 +1,8 @@
 ---
 title: 'HTTP 메서드'
 description: '클라이언트가 서버에 요청할 때 목적과 종류를 알리기 위해 사용한다.'
-publishedAt: '2026-10-04'
 tags: ['Backend', 'Web']
+publishedAt: '2026-10-04'
 ---
 
 | 메서드   | 설명                                                                      |

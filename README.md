@@ -124,7 +124,11 @@ order: 1
 
 ## 마크다운 블로그 글 추가
 
-`src/templates/blog.md`를 복사해 실제 내용을 작성한 뒤 `src/content/blog/`에 새 파일명으로 저장하세요. 템플릿 원본은 콘텐츠로 수집하지 않습니다. 예를 들어 `swift-concurrency.md`의 주소는 `/blog/swift-concurrency/`입니다. 하위 폴더를 사용하면 해당 경로도 글 주소에 포함됩니다.
+`src/templates/blog.md`를 복사해 실제 내용을 작성한 뒤 `src/content/blog/`에 저장하세요. 템플릿 원본은 콘텐츠로 수집하지 않습니다.
+
+- **이미지가 없는 글**: `src/content/blog/swift-concurrency.md`처럼 단일 파일로 저장할 수 있습니다.
+- **이미지가 포함된 글(Page Bundle 권장)**: `src/content/blog/swift-concurrency/index.md`처럼 폴더를 만들고 이미지와 함께 저장합니다.
+  두 방식 모두 주소는 동일하게 `/blog/swift-concurrency/`가 됩니다.
 
 파일 상단의 YAML 메타데이터와 아래 마크다운 본문을 작성합니다.
 
@@ -145,7 +149,7 @@ publishedAt: '2026-10-04'
 - `tags`는 선택 항목이며 생략하면 태그 없는 글로 표시됩니다. 문자열 배열로 자유롭게 작성하세요. 앞뒤 공백 제거, 유니코드 NFC 정규화, 소문자 변환 후 중복 태그를 제거합니다. 빈 문자열이나 공백만 있는 태그는 빌드 오류로 표시됩니다.
 - `publishedAt`은 유효한 `YYYY-MM-DD` 날짜이며 목록은 이 날짜의 최신순으로 정렬합니다. 날짜는 예약 발행 기능이 아닙니다.
 - `src/content/blog/`의 모든 마크다운 글은 목록과 상세 페이지에 포함됩니다. 파일을 추가하면 빌드·배포 시 공개되며, 초안 기능은 없습니다.
-- 제목, 목록, 인용문, 코드 블록, 표, 이미지를 지원합니다. 로컬 이미지는 글 옆에 두고 `![대체 텍스트](./image.png)`처럼 연결하면 Astro가 처리합니다.
+- 제목, 목록, 인용문, 코드 블록, 표, 이미지를 지원합니다. Page Bundle 구조에서는 `index.md`와 같은 폴더에 이미지를 두고 `![대체 텍스트](./image.png)`처럼 상대 경로로 연결하면 Astro와 Sharp가 빌드 타임에 WebP로 자동 최적화하여 반응형 `<img>` 태그를 생성합니다.
 - 내부 페이지와 `public/` 파일 경로를 본문에 직접 작성할 때는 배포 base 경로를 포함하세요. 현재 base는 `/`입니다. 파일 이름을 변경하면 글 주소도 바뀝니다.
 
 `mise run build` 후 `mise run preview`로 목록과 글 상세를 확인하세요. 배포 절차는 위 GitHub Pages 설정과 동일합니다.

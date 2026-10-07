@@ -5,8 +5,11 @@ tags: ['swift', 'concurrency']
 publishedAt: '2026-10-04'
 ---
 
-이 파일을 복사해 새 글을 작성하세요. 파일 이름은 글 주소에 사용됩니다.
-실제 내용을 작성한 뒤 `src/content/blog/`에 저장하세요. 빌드·배포 시 공개됩니다.
+이 파일을 복사해 새 글을 작성하세요.
+
+- 이미지가 없는 글: `src/content/blog/<slug>.md`로 저장 (파일명이 주소가 됨)
+- 이미지가 있는 글(Page Bundle): `src/content/blog/<slug>/index.md` 및 같은 폴더에 이미지 저장 (`![설명](./image.png)`)
+  실제 내용을 작성한 뒤 `src/content/blog/`에 저장하세요. 빌드·배포 시 공개됩니다.
 
 ## 소제목
 
