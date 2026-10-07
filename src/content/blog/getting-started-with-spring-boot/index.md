@@ -7,7 +7,7 @@ publishedAt: '2026-10-07'
 
 # InteliJ IDEA 프로젝트 생성
 
-![프로젝트 생성](./intellij-create-a-project.png)
+![[intellij-create-a-project.png|프로젝트 생성]]
 
 ## 언어
 

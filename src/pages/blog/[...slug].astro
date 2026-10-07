@@ -6,8 +6,10 @@ import BlogTags from '../../components/BlogTags';
 import DetailFrame from '../../components/DetailFrame';
 import BlogArticleHeader from '../../components/BlogArticleHeader';
 import MarkdownBody from '../../components/MarkdownBody';
+import BlogBacklinks from '../../components/BlogBacklinks';
 import Layout from '../../layouts/Layout.astro';
 import { formatPostDate, getPosts } from '../../data/blog';
+import { getVaultIndex } from '../../data/vault.mjs';
 
 export const getStaticPaths = (async () => {
   const posts = await getPosts();
@@ -24,6 +26,9 @@ interface Props {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const base = import.meta.env.BASE_URL;
+
+const vaultIndex = getVaultIndex();
+const backlinks = vaultIndex.backlinks.get(post.id) ?? [];
 ---
 
 <Layout
@@ -48,5 +53,6 @@ const base = import.meta.env.BASE_URL;
     <MarkdownBody>
       <Content />
     </MarkdownBody>
+    <BlogBacklinks backlinks={backlinks} />
   </DetailFrame>
 </Layout>
