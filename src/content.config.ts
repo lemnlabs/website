@@ -1,22 +1,14 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
-import { normalizeTag } from './data/blog-tags';
+import { NEWS_CATEGORIES } from './data/newsroom-categories';
 
-const blog = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+const newsroom = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/newsroom' }),
   schema: z.object({
     title: z.string().trim().min(1),
     description: z.string().trim().min(1),
-    tags: z
-      .array(
-        z
-          .string()
-          .transform(normalizeTag)
-          .pipe(z.string().min(1, '빈 태그는 사용할 수 없습니다.')),
-      )
-      .default([])
-      .transform((tags) => [...new Set(tags)]),
+    category: z.enum(NEWS_CATEGORIES),
     publishedAt: z
       .string()
       .regex(/^\d{4}-\d{2}-\d{2}$/)
@@ -47,4 +39,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { blog, projects, pages };
+export const collections = { newsroom, projects, pages };

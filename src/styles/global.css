@@ -276,23 +276,12 @@ h1 {
 .content-link:hover {
   color: var(--link);
 }
-.blog-tag-filters,
-.blog-tags {
+.newsroom-category-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-.blog-tags {
-  margin: 1rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-.blog-tags li {
-  min-width: 0;
-  max-width: 100%;
-}
-.blog-tag-filter,
-.blog-tag-link {
+.newsroom-category-filter {
   min-height: 2.5rem;
   max-width: 100%;
   height: auto;
@@ -300,18 +289,22 @@ h1 {
   white-space: normal;
   overflow-wrap: anywhere;
 }
-.blog-tag-link {
+.newsroom-category-badge {
   text-decoration: none;
 }
-.blog-result-count {
+.newsroom-result-count {
   margin-block: 1rem 1.5rem;
   overflow-wrap: anywhere;
 }
-.blog-post-meta {
+.newsroom-article-meta-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  align-items: center;
+  gap: 0.625rem 0.875rem;
   margin-bottom: 0.75rem;
+}
+.newsroom-article-meta {
+  margin: 0;
 }
 .detail-content {
   max-width: 48rem;
@@ -468,17 +461,17 @@ h1 {
 }
 
 /* Notion-style Mobile Table of Contents */
-.blog-toc-mobile {
+.article-toc-mobile {
   margin-block: 0.5rem 2.5rem;
 }
 
 @media (min-width: 1024px) {
-  .blog-toc-mobile {
+  .article-toc-mobile {
     display: none;
   }
 }
 
-.blog-toc-mobile__list {
+.article-toc-mobile__list {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -487,17 +480,17 @@ h1 {
   list-style: none;
 }
 
-.blog-toc-mobile__item[data-depth='0'] {
+.article-toc-mobile__item[data-depth='0'] {
   padding-left: 0;
 }
-.blog-toc-mobile__item[data-depth='1'] {
+.article-toc-mobile__item[data-depth='1'] {
   padding-left: 1.5rem;
 }
-.blog-toc-mobile__item[data-depth='2'] {
+.article-toc-mobile__item[data-depth='2'] {
   padding-left: 3rem;
 }
 
-.blog-toc-mobile__link {
+.article-toc-mobile__link {
   display: inline;
   color: color-mix(in srgb, var(--foreground) 65%, transparent);
   text-decoration: underline;
@@ -511,7 +504,7 @@ h1 {
     text-decoration-color 0.15s ease;
 }
 
-.blog-toc-mobile__link:hover {
+.article-toc-mobile__link:hover {
   color: var(--foreground);
   text-decoration-color: var(--foreground);
 }
@@ -521,7 +514,7 @@ h1 {
   margin-bottom: 1.5rem;
   gap: 0.25rem;
 }
-.blog-article-header {
+.newsroom-article-header {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -529,11 +522,11 @@ h1 {
   border-bottom: 1px solid var(--border);
   margin-bottom: 2rem;
 }
-.blog-article-header :where(h1, .blog-post-meta, .description) {
+.newsroom-article-header :where(h1, .newsroom-article-meta, .description) {
   margin-block: 0;
 }
-.blog-article-header .blog-tags {
-  margin-block: 0.5rem 0;
+.newsroom-article-header .newsroom-article-meta-group {
+  margin-bottom: 0.25rem;
 }
 /* HeroUI Prose supplies typography; keep site spacing and responsive content. */
 .markdown-prose {
@@ -985,24 +978,24 @@ html[data-theme='dark'] .astro-code span {
   color: var(--link);
 }
 
-/* Blog Backlinks UI */
-.blog-backlinks {
+/* Newsroom Backlinks UI */
+.newsroom-backlinks {
   margin-top: 3.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
 }
-.blog-backlinks__header {
+.newsroom-backlinks__header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1.25rem;
 }
-.blog-backlinks__title {
+.newsroom-backlinks__title {
   margin: 0;
   font-size: 1.15rem;
   font-weight: 600;
 }
-.blog-backlinks__badge {
+.newsroom-backlinks__badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1015,25 +1008,25 @@ html[data-theme='dark'] .astro-code span {
   background: color-mix(in srgb, var(--muted) 20%, transparent);
   color: var(--muted);
 }
-.blog-backlinks__grid {
+.newsroom-backlinks__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
   gap: 0.75rem;
 }
-.blog-backlink-card-link {
+.newsroom-backlink-card-link {
   text-decoration: none;
   color: inherit;
   display: block;
 }
-.blog-backlink-card {
+.newsroom-backlink-card {
   height: 100%;
   border: 1px solid var(--border);
   transition: border-color 0.15s ease;
 }
-.blog-backlink-card:hover {
+.newsroom-backlink-card:hover {
   border-color: var(--link);
 }
-.blog-backlink-arrow {
+.newsroom-backlink-arrow {
   margin-left: 0.25rem;
   font-size: 0.9em;
   color: var(--muted);

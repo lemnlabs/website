@@ -10,7 +10,7 @@ export default function FloatingNavigation({ pathname, base }: Props) {
   const navigation = [
     { label: '홈', path: '' },
     { label: '프로젝트', path: 'projects/' },
-    { label: '블로그', path: 'blog/' },
+    { label: '뉴스룸', path: 'newsroom/' },
     { label: '소개', path: 'about/' },
   ];
   const selected = navigation.find(({ path }) =>

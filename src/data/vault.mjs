@@ -49,6 +49,10 @@ function parseFrontmatter(content) {
   const publishedAt = (
     fm.match(/^publishedAt:\s*['"]?(.*?)['"]?\s*$/m)?.[1] ?? ''
   ).trim();
+  const category = (
+    fm.match(/^category:\s*['"]?(.*?)['"]?\s*$/m)?.[1] ?? ''
+  ).trim();
+  const url = (fm.match(/^url:\s*['"]?(.*?)['"]?\s*$/m)?.[1] ?? '').trim();
 
   const aliases = [];
   const inline = fm.match(/^aliases:\s*\[(.*?)\]/m);
@@ -80,6 +84,8 @@ function parseFrontmatter(content) {
     aliases: [...new Set(aliases)],
     publishedAt: publishedAt || undefined,
     description: description || undefined,
+    category: category || undefined,
+    url: url || undefined,
   };
 }
 
@@ -138,10 +144,10 @@ export function buildVaultIndex(baseDir = process.cwd()) {
   const documents = new Map();
   const backlinks = new Map();
 
-  // 1. Scan blog
-  const blogFiles = scanMarkdownFiles(path.join(contentDir, 'blog'));
-  for (const filePath of blogFiles) {
-    const rel = path.relative(path.join(contentDir, 'blog'), filePath);
+  // 1. Scan newsroom
+  const newsroomFiles = scanMarkdownFiles(path.join(contentDir, 'newsroom'));
+  for (const filePath of newsroomFiles) {
+    const rel = path.relative(path.join(contentDir, 'newsroom'), filePath);
     const slug = rel.endsWith('/index.md')
       ? rel.slice(0, -'/index.md'.length)
       : rel.replace(/\.md$/, '');
@@ -153,15 +159,16 @@ export function buildVaultIndex(baseDir = process.cwd()) {
 
     const doc = {
       id: slug,
-      collection: 'blog',
+      collection: 'newsroom',
       title: fm.title || slug,
-      url: `${cleanBase}blog/${slug}/`,
+      url: `${cleanBase}newsroom/${slug}/`,
       filePath,
       headings,
       outgoingLinks,
       aliases: fm.aliases,
       publishedAt: fm.publishedAt,
       description: fm.description,
+      category: fm.category,
     };
     allDocuments.push(doc);
   }

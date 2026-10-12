@@ -1,0 +1,32 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NewsroomList from '../../components/NewsroomList';
+import PageTitle from '../../components/PageTitle';
+import {
+  formatNewsDate,
+  getNewsArticleUrl,
+  getNewsArticles,
+} from '../../data/newsroom';
+import type { NewsArticleSummary } from '../../data/newsroom-categories';
+
+const base = import.meta.env.BASE_URL;
+const articles: NewsArticleSummary[] = (await getNewsArticles()).map(
+  (article) => ({
+    id: article.id,
+    href: getNewsArticleUrl(article),
+    title: article.data.title,
+    description: article.data.description,
+    publishedAt: article.data.publishedAt,
+    formattedDate: formatNewsDate(article.data.publishedAt),
+    category: article.data.category,
+  }),
+);
+---
+
+<Layout
+  title="뉴스룸 | lemnlabs"
+  description="lemnlabs의 새로운 소식과 소식을 전합니다."
+>
+  <PageTitle title="뉴스룸" appearance="page" />
+  <NewsroomList articles={articles} base={base} client:load />
+</Layout>

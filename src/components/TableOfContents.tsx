@@ -28,19 +28,19 @@ export function TableOfContentsMobile({ headings }: Props) {
   };
 
   return (
-    <nav className="blog-toc-mobile" aria-label="본문 목차">
-      <ul className="blog-toc-mobile__list">
+    <nav className="article-toc-mobile" aria-label="본문 목차">
+      <ul className="article-toc-mobile__list">
         {headings.map((heading) => {
           const relativeDepth = heading.depth - minDepth;
           return (
             <li
               key={heading.slug}
-              className="blog-toc-mobile__item"
+              className="article-toc-mobile__item"
               data-depth={relativeDepth}
             >
               <a
                 href={`#${heading.slug}`}
-                className="blog-toc-mobile__link"
+                className="article-toc-mobile__link"
                 onClick={(e) => handleLinkClick(e, heading.slug)}
               >
                 {heading.text}

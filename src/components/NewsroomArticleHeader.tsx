@@ -8,26 +8,32 @@ interface Props {
   publishedAt: string;
   formattedDate: string;
   // Astro supplies this named slot at render time.
-  tags?: ReactNode;
+  category?: ReactNode;
 }
 
-export default function BlogArticleHeader({
+export default function NewsroomArticleHeader({
   title,
   description,
   publishedAt,
   formattedDate,
-  tags,
+  category,
 }: Props) {
   return (
-    <header className="blog-article-header">
+    <header className="newsroom-article-header">
+      <div className="newsroom-article-meta-group">
+        {category}
+        <Typography.Paragraph
+          size="sm"
+          color="muted"
+          className="newsroom-article-meta"
+        >
+          <time dateTime={publishedAt}>{formattedDate}</time>
+        </Typography.Paragraph>
+      </div>
       <PageTitle title={title} appearance="detail" />
       <Typography.Paragraph color="muted" className="description">
         {description}
       </Typography.Paragraph>
-      <Typography.Paragraph size="sm" color="muted" className="blog-post-meta">
-        <time dateTime={publishedAt}>{formattedDate}</time>
-      </Typography.Paragraph>
-      {tags}
     </header>
   );
 }

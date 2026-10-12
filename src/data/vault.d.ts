@@ -6,7 +6,7 @@ export interface DocumentHeading {
 
 export interface DocumentMeta {
   id: string;
-  collection: 'blog' | 'projects' | 'pages';
+  collection: 'newsroom' | 'projects' | 'pages';
   title: string;
   url: string;
   filePath: string;
@@ -15,6 +15,7 @@ export interface DocumentMeta {
   aliases: string[];
   publishedAt?: string;
   description?: string;
+  category?: string;
 }
 
 export interface BacklinkItem {
@@ -23,6 +24,7 @@ export interface BacklinkItem {
   url: string;
   publishedAt?: string;
   description?: string;
+  category?: string;
 }
 
 export interface VaultIndex {
