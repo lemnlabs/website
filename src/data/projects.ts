@@ -5,6 +5,7 @@ export interface ProjectSummary {
   title: string;
   description?: string;
   href: string;
+  icon?: string;
 }
 
 export async function getProjects() {
@@ -15,5 +16,5 @@ export async function getProjects() {
 }
 
 export function getProjectUrl(project: CollectionEntry<'projects'>) {
-  return `${import.meta.env.BASE_URL}projects/${encodeURIComponent(project.id)}/`;
+  return project.data.url;
 }

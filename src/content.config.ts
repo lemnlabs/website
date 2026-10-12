@@ -27,6 +27,18 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string().trim().min(1),
     description: z.string().trim().min(1).optional(),
+    url: z
+      .string()
+      .trim()
+      .refine((val) => {
+        try {
+          const parsed = new URL(val);
+          return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+        } catch {
+          return false;
+        }
+      }, '유효한 웹사이트 URL을 입력하세요.'),
+    icon: z.string().trim().min(1).optional(),
     order: z.number().int().default(0),
   }),
 });

@@ -13,6 +13,7 @@ const projects: ProjectSummary[] = (await getProjects()).map((project) => ({
   title: project.data.title,
   description: project.data.description,
   href: getProjectUrl(project),
+  icon: project.data.icon,
 }));
 ---
 

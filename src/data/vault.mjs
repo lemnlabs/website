@@ -186,7 +186,7 @@ export function buildVaultIndex(baseDir = process.cwd()) {
       id: slug,
       collection: 'projects',
       title: fm.title || slug,
-      url: `${cleanBase}projects/${slug}/`,
+      url: fm.url || `${cleanBase}projects/`,
       filePath,
       headings,
       outgoingLinks,
