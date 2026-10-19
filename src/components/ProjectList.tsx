@@ -1,4 +1,5 @@
 import { Separator } from '@/components/ui/separator';
+import { ArrowUpRightIcon } from 'lucide-react';
 import type { ProjectSummary } from '../data/projects';
 
 interface Props {
@@ -39,9 +40,10 @@ export default function ProjectList({ projects }: Props) {
                   className="content-link"
                 >
                   {project.title}
-                  <span aria-hidden="true" className="project-external-arrow">
-                    ↗
-                  </span>
+                  <ArrowUpRightIcon
+                    aria-hidden="true"
+                    className="project-external-arrow"
+                  />
                 </a>
               </h2>
               <p className="content-description text-muted-foreground">
