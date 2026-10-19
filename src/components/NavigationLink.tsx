@@ -1,4 +1,5 @@
 import { buttonVariants } from '@/components/ui/button';
+import { ArrowUpRightIcon } from 'lucide-react';
 
 interface Props {
   href: string;
@@ -23,7 +24,9 @@ export default function NavigationLink({
   return (
     <a href={href} className={className}>
       {label}
-      {appearance === 'footer' && <span aria-hidden="true">↗</span>}
+      {appearance === 'footer' && (
+        <ArrowUpRightIcon aria-hidden="true" data-icon="inline-end" />
+      )}
     </a>
   );
 }
