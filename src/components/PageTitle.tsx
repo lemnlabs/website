@@ -1,5 +1,3 @@
-import { Typography } from '@heroui/react';
-
 interface Props {
   title: string;
   appearance: 'page' | 'detail';
@@ -7,11 +5,8 @@ interface Props {
 
 export default function PageTitle({ title, appearance }: Props) {
   return (
-    <Typography.Heading
-      level={1}
-      className={appearance === 'page' ? 'page-title' : undefined}
-    >
+    <h1 className={appearance === 'page' ? 'page-title' : undefined}>
       {title}
-    </Typography.Heading>
+    </h1>
   );
 }

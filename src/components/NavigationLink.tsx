@@ -1,5 +1,4 @@
-import { Link } from '@heroui/react';
-import { buttonVariants } from '@heroui/styles';
+import { buttonVariants } from '@/components/ui/button';
 
 interface Props {
   href: string;
@@ -17,14 +16,14 @@ export default function NavigationLink({
       ? 'skip-link'
       : buttonVariants({
           variant: 'ghost',
-          size: appearance === 'footer' ? 'sm' : 'md',
+          size: appearance === 'footer' ? 'sm' : 'default',
           className: appearance === 'back' ? 'back-link' : undefined,
         });
 
   return (
-    <Link href={href} className={className}>
+    <a href={href} className={className}>
       {label}
       {appearance === 'footer' && <span aria-hidden="true">↗</span>}
-    </Link>
+    </a>
   );
 }

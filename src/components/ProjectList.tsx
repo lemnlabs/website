@@ -1,4 +1,4 @@
-import { Link, Separator, Typography } from '@heroui/react';
+import { Separator } from '@/components/ui/separator';
 import type { ProjectSummary } from '../data/projects';
 
 interface Props {
@@ -31,8 +31,8 @@ export default function ProjectList({ projects }: Props) {
               </a>
             ) : null}
             <div className="project-row-body">
-              <Typography.Heading level={2}>
-                <Link
+              <h2>
+                <a
                   href={project.href}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -42,19 +42,14 @@ export default function ProjectList({ projects }: Props) {
                   <span aria-hidden="true" className="project-external-arrow">
                     ↗
                   </span>
-                </Link>
-              </Typography.Heading>
-              <Typography.Paragraph
-                color="muted"
-                className="content-description"
-              >
+                </a>
+              </h2>
+              <p className="content-description text-muted-foreground">
                 {project.description ?? '프로젝트 소개를 준비하고 있습니다.'}
-              </Typography.Paragraph>
+              </p>
             </div>
           </article>
-          {index < projects.length - 1 && (
-            <Separator className="content-divider" />
-          )}
+          {index < projects.length - 1 && <Separator className="my-2" />}
         </li>
       ))}
     </ul>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Button, Separator, Typography } from '@heroui/react';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
   NEWS_CATEGORIES,
   isValidCategory,
@@ -56,21 +57,18 @@ export default function NewsroomList({ articles, base }: Props) {
         {filterOptions.map((category) => (
           <Button
             key={category ?? 'all'}
-            variant={selectedCategory === category ? 'primary' : 'secondary'}
-            size="sm"
-            className="newsroom-category-filter"
+            variant={selectedCategory === category ? 'default' : 'secondary'}
+            className="rounded-full"
             aria-pressed={selectedCategory === category}
             aria-controls="newsroom-article-results"
-            onPress={() => selectCategory(category)}
+            onClick={() => selectCategory(category)}
           >
             {category ?? '전체'}
           </Button>
         ))}
       </div>
-      <Typography.Paragraph
-        size="sm"
-        color="muted"
-        className="newsroom-result-count"
+      <p
+        className="newsroom-result-count text-sm text-muted-foreground"
         role="status"
         aria-live="polite"
         aria-atomic="true"
@@ -78,7 +76,7 @@ export default function NewsroomList({ articles, base }: Props) {
         {selectedCategory
           ? `‘${selectedCategory}’ · ${filteredArticles.length}개의 소식`
           : `전체 ${filteredArticles.length}개의 소식`}
-      </Typography.Paragraph>
+      </p>
       <div id="newsroom-article-results">
         {filteredArticles.length > 0 ? (
           <ul className="content-list" aria-label="뉴스룸 소식 목록">
@@ -86,7 +84,7 @@ export default function NewsroomList({ articles, base }: Props) {
               <li key={article.id}>
                 <NewsroomRow {...article} base={base} />
                 {index < filteredArticles.length - 1 && (
-                  <Separator className="content-divider" />
+                  <Separator className="my-2" />
                 )}
               </li>
             ))}

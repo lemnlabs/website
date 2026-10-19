@@ -1,4 +1,9 @@
-import { Card, Link, Typography } from '@heroui/react';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import type { BacklinkItem } from '../data/vault';
 
 interface Props {
@@ -11,32 +16,30 @@ export default function NewsroomBacklinks({ backlinks }: Props) {
   return (
     <section className="newsroom-backlinks" aria-label="연결된 문서">
       <div className="newsroom-backlinks__header">
-        <Typography.Heading level={2} className="newsroom-backlinks__title">
-          연결된 문서
-        </Typography.Heading>
+        <h2 className="newsroom-backlinks__title">연결된 문서</h2>
         <span className="newsroom-backlinks__badge">{backlinks.length}</span>
       </div>
       <div className="newsroom-backlinks__grid">
         {backlinks.map((item) => (
-          <Link
+          <a
             key={item.id}
             href={item.url}
             className="newsroom-backlink-card-link"
           >
-            <Card className="newsroom-backlink-card">
-              <Card.Header>
-                <Card.Title render={(props) => <h3 {...props} />}>
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle>
                   {item.title}{' '}
                   <span aria-hidden="true" className="newsroom-backlink-arrow">
                     ↗
                   </span>
-                </Card.Title>
+                </CardTitle>
                 {item.description ? (
-                  <Card.Description>{item.description}</Card.Description>
+                  <CardDescription>{item.description}</CardDescription>
                 ) : null}
-              </Card.Header>
+              </CardHeader>
             </Card>
-          </Link>
+          </a>
         ))}
       </div>
     </section>

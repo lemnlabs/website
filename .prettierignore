@@ -3,3 +3,4 @@ dist/
 .astro/
 .husky/_/
 pnpm-lock.yaml
+.agents/

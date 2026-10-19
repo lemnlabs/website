@@ -41,7 +41,7 @@ mise run dev
 src/
   layouts/Layout.astro    # HTML, 메타데이터, 공통 스타일
   pages/                 # 홈, 프로젝트, 뉴스룸, 소개 페이지
-  components/            # 실제 HeroUI 컴포넌트를 사용하는 공통 UI
+  components/            # 공통 UI 컴포넌트 및 shadcn/ui 기반 컴포넌트
   content/newsroom/      # 마크다운 뉴스룸 소식
   content/projects/      # 프로젝트 메타데이터와 본문
   content/pages/about.md # 소개 메타데이터와 본문
@@ -49,7 +49,10 @@ src/
   content.config.ts      # 콘텐츠 메타데이터 스키마 및 로더
   data/newsroom.ts       # 소식 조회, 최신순 정렬, 소식 주소
   data/projects.ts       # 프로젝트 조회, 정렬, 주소
-  styles/global.css      # HeroUI/Tailwind 및 공통 스타일
+  lib/utils.ts           # cn 헬퍼 함수
+  styles/global.css      # Tailwind v4 및 테마 토큰 스타일
+.agents/                 # AI 어시스턴트용 워크스페이스 스킬 (shadcn/ui 공식 스킬 등)
+skills-lock.json         # 설치된 AI 스킬 버전 및 해시 잠금 파일
 public/                  # 정적 파일
 astro.config.mjs         # 사이트 URL 및 배포 경로
 mise.toml                # Node.js/pnpm 버전 및 개발 작업
@@ -90,7 +93,7 @@ DNS 및 Pages 설정이 완료되어야 실제 도메인으로 접속할 수 있
 | `/newsroom/{slug}/` | 마크다운 소식 상세 페이지        |
 | `/about/`           | lemnlabs 소개                    |
 
-홈은 제공된 별 애니메이션 화면을 사용합니다. HeroUI `Link`로 구성한 플로팅 캡슐 메뉴에서 홈·프로젝트·뉴스룸·소개로 이동할 수 있습니다.
+홈은 제공된 별 애니메이션 화면을 사용합니다. 플로팅 캡슐 메뉴에서 홈·프로젝트·뉴스룸·소개로 이동할 수 있습니다.
 메뉴는 화면 상단 중앙에 고정되며 `src/components/FloatingNavigation.tsx`에서 관리합니다.
 `src/components/Starfield.astro`에서 화면을, `src/scripts/starfield/`의 TypeScript 모듈에서 애니메이션을 관리합니다. Astro가 스크립트를 번들링하며 별 생성·공통 타입·WGSL 셰이더·렌더링 엔진·수명주기를 분리합니다.
 WebGPU를 우선 사용하고 초기화 실패나 장치 연결 종료 시 Canvas 2D로 전환합니다. 두 엔진 모두 사용할 수 없으면 텍스트 로고를 유지합니다. 동작 줄이기 설정에서는 별을 원래 위치에 정적으로 표시합니다. 입력은 캔버스에 한정하며 페이지 이탈 시 이벤트와 GPU 자원을 정리하고 브라우저 뒤로 가기로 복귀하면 재초기화합니다.
@@ -116,7 +119,7 @@ order: 1
 - `icon`은 선택 항목으로, 공개 이미지 경로를 지정하면 목록 좌측에 앱 아이콘이 표시됩니다.
 - `order`는 정수이며 생략하면 0입니다. 작은 값부터 정렬하고, 같으면 파일 ID 순으로 정렬합니다.
 - 소개는 `src/content/pages/about.md`의 필수 `title`, `description`과 본문을 수정하세요. 이 폴더에 다른 파일을 추가해도 페이지 경로는 자동 생성되지 않습니다.
-- 소개는 본문이 비어 있거나 공백뿐이면 기존 준비 안내 카드를 표시합니다. 본문을 작성하면 공용 마크다운 스타일로 표시합니다.
+- 소개는 본문이 비어 있거나 공백뿐이면 기존 준비 안내 문구를 표시합니다. 본문을 작성하면 공용 마크다운 스타일로 표시합니다.
 - 프로젝트와 뉴스룸 콘텐츠 폴더에 파일을 추가하면 빌드·배포 시 공개됩니다. 초안 기능은 없습니다. 작성 중인 파일과 템플릿은 콘텐츠 폴더 밖에서 관리하세요.
 - 로컬 이미지와 내부 링크 작성 규칙은 아래 뉴스룸 안내와 같습니다.
 
@@ -153,8 +156,8 @@ publishedAt: '2026-10-13'
 `mise run build` 후 `mise run preview`로 목록과 소식 상세를 확인하세요. 배포 절차는 위 GitHub Pages 설정과 동일합니다.
 뉴스룸은 전체 소식 목록과 개별 소식 상세 페이지로 구성됩니다. 상단에서 카테고리(전체, 공지사항, 보도자료, 미디어)를 선택하면 목록이 즉시 필터링되며 `전체`로 해제합니다.
 소식 목록과 상세 페이지의 카테고리 배지 링크도 필터된 목록으로 이동합니다. 선택은 `/newsroom/?category=보도자료`처럼 주소에 저장되어 새로고침, 공유, 뒤로·앞으로 가기에서도 유지됩니다. 해당 카테고리에 글이 없으면 빈 결과 안내를 표시합니다. 소식 주소는 그대로 유지하며 카테고리별 하위 페이지는 생성하지 않습니다.
-필터와 목록은 React로 활성화하고 HeroUI `Button`, `Separator`, `Link`를 사용합니다. 카테고리 필터는 `Button`의 `aria-pressed`로 선택 상태를 전달하며, 소식의 카테고리는 `Link`에 `buttonVariants`를 적용해 배지 모양의 링크로 표시합니다. 서버에서는 전체 소식 목록을 렌더링하며 브라우저에서 JavaScript 활성화 후 주소의 필터를 적용합니다. 본문은 Astro가 정적 HTML로 렌더링합니다.
-뉴스룸 목록은 카드 없이 소식 사이에 구분선을 표시하며, 카테고리·날짜 메타와 제목, 요약을 왼쪽 기준선에 정렬합니다. 행의 호버 배경은 사용하지 않습니다. 상세 화면의 돌아가기 링크는 제목 왼쪽 위에서 HeroUI tertiary 버튼 스타일을 사용합니다.
+필터와 목록은 React로 활성화하고 shadcn/ui의 `Button`, `Separator`와 표준 링크를 사용합니다. 카테고리 필터는 `Button`의 `aria-pressed`로 선택 상태를 전달하며, 소식의 카테고리는 `buttonVariants({ variant: 'secondary', size: 'sm' })`를 적용해 배지 모양의 링크로 표시합니다. 서버에서는 전체 소식 목록을 렌더링하며 브라우저에서 JavaScript 활성화 후 주소의 필터를 적용합니다. 본문은 Astro가 정적 HTML로 렌더링합니다.
+뉴스룸 목록은 카드 없이 소식 사이에 구분선을 표시하며, 카테고리·날짜 메타와 제목, 요약을 왼쪽 기준선에 정렬합니다. 행의 호버 배경은 사용하지 않습니다. 상세 화면의 돌아가기 링크는 제목 왼쪽 위에서 tertiary 버튼 스타일을 사용합니다.
 
 ## 마크다운 콜아웃
 
@@ -179,20 +182,27 @@ publishedAt: '2026-10-13'
 
 ## 디자인 시스템
 
-[HeroUI v3](https://heroui.com/en/docs/react/getting-started/frameworks)의 공식 스타일 패키지 `@heroui/styles`와 Tailwind CSS v4를 사용합니다.
-카드와 링크는 `@heroui/react`의 실제 `Card`와 `Link` 컴포넌트를 사용합니다. 테마 토큰으로 공통 레이아웃을 구성합니다. 스타일은 `src/styles/global.css`에서 불러오고
-Tailwind는 `astro.config.mjs`의 Vite 플러그인으로 처리합니다.
+[shadcn/ui](https://ui.shadcn.com) 기반의 컴포넌트와 Tailwind CSS v4를 사용합니다.
+`src/components/ui/`에 `Button`, `Card`, `Separator`, `Badge` 등의 베이스 컴포넌트가 위치하며, `@shadcn/lint`로 디자인 시스템 규칙을 강제합니다.
+스타일은 `src/styles/global.css`에서 Tailwind v4 `@theme inline` 및 OKLCH 테마 토큰으로 관리합니다.
+
+### @shadcn/lint 디자인 시스템 검증
+
+ESLint Flat Config(`eslint.config.mjs`)에 `@shadcn/lint` 플러그인이 통합되어 있습니다.
+
+- `shadcn/no-restyle`: 컴포넌트 내부 캡슐화를 위반하는 임의 클래스 추가를 방지합니다. 레이아웃 클래스(`mt-*`, `w-full` 등)나 부모 요소를 통한 스타일링을 권장합니다.
+- `shadcn/no-arbitrary-values`: `p-[13px]`와 같은 임의 값을 차단하고 테마 스케일 사용을 강제합니다.
+- `shadcn/no-raw-colors`: 원시 색상 대신 선언된 시맨틱 테마 토큰(`--background`, `--foreground`, `--primary`, `--muted` 등)을 사용하도록 유도합니다.
+- 베이스 컴포넌트(`src/components/ui/**`)는 자체 스타일을 선언하므로 규칙에서 제외됩니다.
+
 시스템 설정에 따라 라이트·다크 테마가 자동 전환되며, 페이지를 열어 둔 상태에서 설정을 바꿔도 즉시 반영됩니다. JavaScript가 비활성화되면 라이트 테마를 사용합니다. 홈의 검은 별 배경은 유지하고 메뉴는 시스템 테마를 따릅니다.
-브랜드 노란색 `#f7d84a`를 `--accent`, 짙은 글자색 `#1c1c1e`를 `--accent-foreground`로 지정합니다. 링크·포커스·호버·연한 강조색은 HeroUI 기본 토큰을 사용합니다. Radius는 Medium 기준 `--radius: 0.5rem`이며, 컴포넌트는 HeroUI 파생 스케일을 따릅니다. 플로팅 메뉴의 캡슐 모양은 유지합니다.
-플로팅 메뉴는 `@heroui/react`의 실제 `Link` 컴포넌트에 `buttonVariants({ variant: 'ghost' })`를 적용하며 `@astrojs/react`를 통해 React 19로 렌더링하고 `client:load`로 활성화합니다.
-Tab 키로 메뉴 포커스를 이동하고 Enter로 페이지를 열 수 있습니다. 현재 섹션은 진하게, 나머지는 연하게 표시하며 선택 배경은 사용하지 않습니다. 링크가 포함된 React 컴포넌트도 `client:load`로 활성화합니다.
-단독 빈 상태 카드는 서버 렌더링만 사용하며, 블로그 목록의 빈 상태는 필터에 따라 React에서 갱신됩니다. 버튼 형태의 이동 링크는 `Link`에 `buttonVariants`를 적용합니다.
+브랜드 노란색 `#F7DA4A`를 강조 색상(`--accent`, `--brand`)으로 지정합니다. Radius는 `--radius: 0.5rem` 기준 스케일을 따릅니다.
+플로팅 메뉴는 캡슐 모양 네비게이션 내에서 `buttonVariants({ variant: 'ghost' })`를 적용하며 `@astrojs/react`를 통해 React 19로 렌더링하고 `client:load`로 활성화합니다.
+Tab 키로 메뉴 포커스를 이동하고 Enter로 페이지를 열 수 있습니다. 현재 섹션은 진하게, 나머지는 연하게 표시하며 선택 배경은 사용하지 않습니다.
 
-페이지 UI는 React로 작성하고 Astro는 라우팅, 빌드 시 데이터 조회, 문서 메타데이터, Markdown 렌더링과 island 조합을 담당합니다. `PageTitle`, `DetailFrame`, `BlogArticleHeader`, `MarkdownBody`는 `client:*` 없이 정적 HTML로 렌더링합니다. 기존 링크와 필터는 Astro에서 직접 `client:load`를 지정해 활성화하고, 상세 구조 안에는 슬롯으로 전달합니다. `DetailFrame`의 `back-link` 슬롯은 React의 `backLink` prop에 대응하며, 슬롯 타입은 `ReactNode`입니다. Markdown 본문은 Astro의 `<Content />`를 `MarkdownBody`의 기본 슬롯으로 전달하며 클라이언트 props에 포함하지 않습니다. 문서 레이아웃과 홈의 별 애니메이션은 기존 Astro/TypeScript 구현을 유지합니다.
+페이지 UI는 React로 작성하고 Astro는 라우팅, 빌드 시 데이터 조회, 문서 메타데이터, Markdown 렌더링과 island 조합을 담당합니다. `PageTitle`, `DetailFrame`, `NewsroomArticleHeader`, `MarkdownBody`는 `client:*` 없이 정적 HTML로 렌더링합니다. 기존 링크와 필터는 Astro에서 직접 `client:load`를 지정해 활성화하고, 상세 구조 안에는 슬롯으로 전달합니다.
 
-참고: [Astro 공식 GitHub Pages 배포 가이드](https://docs.astro.build/en/guides/deploy/github/)
-
-프로젝트 목록과 소개는 블로그와 같은 제목 크기와 왼쪽 정렬을 사용합니다. 프로젝트 목록은 HeroUI Link와 Separator를 사용하는 세로 행이며, 프로젝트 상세는 블로그 상세와 같은 너비 및 tertiary 돌아가기 링크를 사용합니다. 프로젝트 상세와 소개는 본문이 비어 있으면 준비 안내 카드를 표시하고, 작성된 본문은 공용 MarkdownBody로 렌더링합니다. 공통 스타일은 `page-title`, `content-*`, `detail-*` 클래스에서 관리하고 상세 돌아가기 링크는 `DetailBackLink.tsx`를 재사용합니다.
+프로젝트 목록과 소개는 뉴스룸과 일관된 제목 크기와 왼쪽 정렬을 사용합니다. 프로젝트 목록은 Separator를 사용하는 세로 행이며, 상세 화면의 돌아가기 링크는 제목 왼쪽 위에서 `DetailBackLink.tsx`(`buttonVariants({ variant: 'tertiary' })`)를 사용합니다. 프로젝트 상세와 소개는 본문이 비어 있으면 준비 안내 문구를 표시하고, 작성된 본문은 공용 MarkdownBody로 렌더링합니다.
 
 ## 커밋 전 검사
 
@@ -206,4 +216,4 @@ Tab 키로 메뉴 포커스를 이동하고 Enter로 페이지를 열 수 있습
 
 훅 실행에는 Git 프로세스의 PATH에서 `mise`를 사용할 수 있어야 합니다. GUI Git 클라이언트도 동일하게 설정하세요. 셸에 mise를 활성화하지 않아도 훅이 `mise exec --`로 도구를 실행합니다.
 `mise run format`, `mise run format:check`, `mise run lint`, `mise run lint:fix`로도 명령을 실행할 수 있습니다.
-생성 디렉터리(`node_modules`, `dist`, `.astro`, Husky 내부 파일)와 pnpm 잠금 파일은 포매팅 대상에서 제외합니다. 린트는 JS/TS/TSX/Astro 코드에 적용하며 타입 기반 린트 대신 기존 Astro 타입 체크를 사용합니다.
+생성 디렉터리(`node_modules`, `dist`, `.astro`, Husky 내부 파일), `.agents/` 및 pnpm 잠금 파일은 포매팅 대상에서 제외합니다. 린트는 JS/TS/TSX/Astro 코드에 적용하며 타입 기반 린트 대신 기존 Astro 타입 체크를 사용합니다.

@@ -1,4 +1,3 @@
-import { Typography } from '@heroui/react';
 import type { ReactNode } from 'react';
 import PageTitle from './PageTitle';
 
@@ -22,18 +21,12 @@ export default function NewsroomArticleHeader({
     <header className="newsroom-article-header">
       <div className="newsroom-article-meta-group">
         {category}
-        <Typography.Paragraph
-          size="sm"
-          color="muted"
-          className="newsroom-article-meta"
-        >
+        <p className="newsroom-article-meta text-sm text-muted-foreground">
           <time dateTime={publishedAt}>{formattedDate}</time>
-        </Typography.Paragraph>
+        </p>
       </div>
       <PageTitle title={title} appearance="detail" />
-      <Typography.Paragraph color="muted" className="description">
-        {description}
-      </Typography.Paragraph>
+      <p className="description text-muted-foreground">{description}</p>
     </header>
   );
 }

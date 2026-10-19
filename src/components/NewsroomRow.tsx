@@ -1,4 +1,3 @@
-import { Link, Typography } from '@heroui/react';
 import type { NewsArticleSummary } from '../data/newsroom-categories';
 import NewsroomCategoryBadge from './NewsroomCategoryBadge';
 
@@ -19,22 +18,16 @@ export default function NewsroomRow({
     <article className="content-row">
       <div className="newsroom-article-meta-group">
         <NewsroomCategoryBadge category={category} base={base} />
-        <Typography.Paragraph
-          size="sm"
-          color="muted"
-          className="newsroom-article-meta"
-        >
+        <p className="newsroom-article-meta text-sm text-muted-foreground">
           <time dateTime={publishedAt}>{formattedDate}</time>
-        </Typography.Paragraph>
+        </p>
       </div>
-      <Typography.Heading level={2}>
-        <Link href={href} className="content-link">
+      <h2>
+        <a href={href} className="content-link">
           {title}
-        </Link>
-      </Typography.Heading>
-      <Typography.Paragraph color="muted" className="content-description">
-        {description}
-      </Typography.Paragraph>
+        </a>
+      </h2>
+      <p className="content-description text-muted-foreground">{description}</p>
     </article>
   );
 }

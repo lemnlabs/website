@@ -1,4 +1,4 @@
-import { Card, Link } from '@heroui/react';
+import { Card, CardHeader } from '@/components/ui/card';
 
 interface Props {
   href: string;
@@ -8,15 +8,17 @@ interface Props {
 
 export default function LinkCard({ href, title, description }: Props) {
   return (
-    <Link href={href} className="link-card-link">
-      <Card className="link-card">
-        <Card.Header>
-          <Card.Title render={(props) => <h2 {...props} />}>
+    <a href={href} className="link-card-link">
+      <Card className="h-full">
+        <CardHeader>
+          <h2 className="link-card-title">
             {title} <span aria-hidden="true">↗</span>
-          </Card.Title>
-          <Card.Description>{description}</Card.Description>
-        </Card.Header>
+          </h2>
+          <p className="link-card-description text-muted-foreground">
+            {description}
+          </p>
+        </CardHeader>
       </Card>
-    </Link>
+    </a>
   );
 }

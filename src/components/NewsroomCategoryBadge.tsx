@@ -1,5 +1,5 @@
-import { Link } from '@heroui/react';
-import { buttonVariants } from '@heroui/styles';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
   getNewsCategoryUrl,
   type NewsCategory,
@@ -12,15 +12,16 @@ interface Props {
 
 export default function NewsroomCategoryBadge({ category, base }: Props) {
   return (
-    <Link
+    <a
       href={getNewsCategoryUrl(category, base)}
-      className={buttonVariants({
-        variant: 'secondary',
-        size: 'sm',
-        className: 'newsroom-category-badge',
-      })}
+      className={cn(
+        buttonVariants({
+          variant: 'secondary',
+        }),
+        'rounded-full newsroom-category-badge',
+      )}
     >
       {category}
-    </Link>
+    </a>
   );
 }

@@ -1,5 +1,4 @@
-import { Link } from '@heroui/react';
-import { buttonVariants } from '@heroui/styles';
+import { buttonVariants } from '@/components/ui/button';
 
 interface Props {
   pathname: string;
@@ -24,7 +23,7 @@ export default function FloatingNavigation({ pathname, base }: Props) {
         const href = `${base}${path}`;
 
         return (
-          <Link
+          <a
             key={href}
             href={href}
             className={buttonVariants({
@@ -34,7 +33,7 @@ export default function FloatingNavigation({ pathname, base }: Props) {
             aria-current={href === selectedKey ? 'page' : undefined}
           >
             {label}
-          </Link>
+          </a>
         );
       })}
     </nav>
